@@ -1,7 +1,6 @@
 ---
 - name: "Provision image"
-  # hosts: default
-  hosts: localhost
+  hosts: default
   become: true
 
   tasks:
@@ -17,3 +16,17 @@
         owner: root
         group: root
         extra_opts: [--strip-components=1]
+    - name: download code-server
+      get_url:
+        url: https://github.com/coder/code-server/releases/download/v4.11.0/code-server-4.11.0-amd64.rpm
+        dest: /tmp/code-server-4.11.0-amd64.rpm
+    - name: Install code-server
+      yum:
+        name: /tmp/code-server-4.11.0-amd64.rpm
+        state: present
+        disable_gpg_check: yes
+    - name: Enable code-server
+      systemd:
+        name: code-server@ec2-user
+        enabled: yes
+        state: started
