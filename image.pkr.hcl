@@ -25,6 +25,9 @@ source "amazon-ebs" "al2023" {
 
 build {
   name = "pulumi-workshop"
+  provisioner "ansible" {
+    playbook_file = "playbook.yml"
+  }
   sources = [
     "source.amazon-ebs.al2023"
   ]

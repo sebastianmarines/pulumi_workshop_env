@@ -1,0 +1,19 @@
+---
+- name: "Provision image"
+  # hosts: default
+  hosts: localhost
+  become: true
+
+  tasks:
+    - name: Install node
+      yum:
+        name: nodejs
+        state: present
+    - name: Install pulumi
+      unarchive:
+        src: https://get.pulumi.com/releases/sdk/pulumi-v3.61.0-linux-x64.tar.gz
+        dest: /usr/local/bin
+        remote_src: yes
+        owner: root
+        group: root
+        extra_opts: [--strip-components=1]
